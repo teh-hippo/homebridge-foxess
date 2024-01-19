@@ -8,7 +8,7 @@ const GenerationPower = 'generationPower' // Output Power (kW)
 const FeedInPower = 'feedinPower' // Feed-in Power (kW)
 const GridConsumptionPower = 'gridConsumptionPower' // GridConsumption Power (kW)
 
-class BasicRealTimeData {
+export class BasicRealTimeData {
   public deviceSN: string = ''
   public todayYield: number = 0
   public pvPower: number = 0
