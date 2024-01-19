@@ -8,8 +8,8 @@
         "type": "object",
         "properties": {
             "name": {
-                "title": "Accessory Name",
-                "description": "Name for the accessory",
+                "title": "Location Name",
+                "description": "Name of the system the API key relates to",
                 "type": "string",
                 "required": true
             },
