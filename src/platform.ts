@@ -1,6 +1,7 @@
 import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccessory, type PlatformConfig, type Service, type Characteristic } from 'homebridge'
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
-import { getDeviceList, type Inverter } from './foxess/getDeviceList'
+import type { Inverter } from './foxess/devices'
+import * as FoxESS from './foxess/api'
 import { RealTimeUsageAccessory } from './RealTimeUsageAccessory'
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
@@ -20,7 +21,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   ) {
     this.log.debug('Finished initializing platform:', this.config.name)
     this.apiKey = config.apiKey
-    this.interval = config.interval
+    this.interval = config.interval ?? 60 * 1000
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -50,7 +51,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
      * must not be registered again to prevent "duplicate UUID" errors.
      */
   async discoverDevices (): Promise<void> {
-    const inverters = await getDeviceList(this.apiKey)
+    const inverters = await FoxESS.getDeviceList(this.apiKey)
 
     for (const device of inverters) {
       const uuid = this.api.hap.uuid.generate(device.deviceSN)

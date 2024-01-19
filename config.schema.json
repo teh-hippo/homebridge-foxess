@@ -1,6 +1,6 @@
 {
-    "pluginAlias": "FoxESS",
-    "pluginType": "accessory",
+    "pluginAlias": "HomebridgeFoxESS",
+    "pluginType": "platform",
     "singular": false,
     "headerDisplay": "FoxESS for HomeKit",
     "footerDisplay": "Created by teh-hippo",

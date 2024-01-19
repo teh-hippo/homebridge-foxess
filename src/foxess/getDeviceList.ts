@@ -1,21 +1,5 @@
-import { getApiCall } from './lib'
-
-enum InverterStatus {
-  Online = 1,
-  Fault = 2,
-  Offline = 3
-}
-
-class Inverter {
-  public deviceSN: string = ''
-  public moduleSN: string = ''
-  public plantID: string = ''
-  public status: InverterStatus = InverterStatus.Offline
-  public hasPV: boolean = false
-  public hasBattery: boolean = false
-  public deviceType: string = ''
-  public productType: string = ''
-}
+import type { Inverter } from './devices'
+import { call } from './base'
 
 class GetDeviceListRequest {
   public currentPage: number = 1
@@ -33,13 +17,11 @@ class GetDeviceListResponsePage {
   public data: Inverter[] = []
 }
 
-async function getDeviceList (apiKey: string): Promise<Inverter[]> {
-  const response: GetDeviceListResponse = await getApiCall('/op/v0/device/list', apiKey, new GetDeviceListRequest())
+export async function getDeviceList (apiKey: string): Promise<Inverter[]> {
+  const response: GetDeviceListResponse = await call('/op/v0/device/list', apiKey, new GetDeviceListRequest())
   if (response.errno === 0 && response.result !== undefined) {
     return response.result.data
   } else {
     throw new Error(`Invalid response code: ${response.errno}`)
   }
 }
-
-export { getDeviceList, Inverter }

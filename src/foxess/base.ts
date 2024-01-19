@@ -4,7 +4,7 @@ function calculateSignature (path: string, apiKey: string, timestamp: number): s
   return Md5.hashStr(`${path}\\r\\n${apiKey}\\r\\n${timestamp.toString()}`)
 }
 
-async function getApiCall<TRequest, TResponse> (path: string, apiKey: string, request: TRequest): Promise<TResponse> {
+export async function call<TRequest, TResponse> (path: string, apiKey: string, request: TRequest): Promise<TResponse> {
   const timestamp = Date.now()
   const signature = calculateSignature(path, apiKey, timestamp)
   const response = await fetch(`https://www.foxesscloud.com${path}`, {
@@ -36,5 +36,3 @@ async function getApiCall<TRequest, TResponse> (path: string, apiKey: string, re
     }
   }
 }
-
-export { getApiCall }
