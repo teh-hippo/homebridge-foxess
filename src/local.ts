@@ -12,7 +12,7 @@ import * as FoxESS from './foxess/api'
   console.info(`Returned ${inverters.length} inverter(s):`)
   for (const inverter of inverters) {
     console.log(`\t${JSON.stringify(inverter)}:`)
-    const data = await FoxESS.getRealTimeData(apiKey, inverter)
+    const data = await FoxESS.getRealTimeData(apiKey, { inverter })
     console.log(JSON.stringify(data))
   }
 })().catch(e => { console.error(e) })

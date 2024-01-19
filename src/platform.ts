@@ -2,8 +2,15 @@ import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccesso
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import type { Inverter } from './foxess/devices'
 import * as FoxESS from './foxess/api'
-import { RealTimeUsageAccessory, RealTimeType } from './accessories/realTimeUsage'
-import { type BasicRealTimeData } from './foxess/realTimeData'
+import { RealTimeUsageAccessory } from './accessories/realTimeUsage'
+
+const variables = [
+  'pvPower', // pvPower (kW)
+  'loadsPower', // Load Power (kW)
+  'generationPower', // Output Power (kW)
+  'feedinPower', // Feed-in Power (kW)
+  'gridConsumptionPower' // GridConsumption Power (kW)
+]
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
@@ -19,9 +26,8 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API
   ) {
-    this.log.debug('Finished initializing platform:', this.config.name)
+    this.log.debug('Initializing platform:', this.config.name)
     this.apiKey = config.apiKey
-
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback')
       this.discoverDevices()
@@ -45,17 +51,17 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     const inverters = await FoxESS.getDeviceList(this.apiKey)
 
     for (const inverter of inverters) {
-      this.getRealTimeTypes().forEach((type) => {
+      variables.forEach((type) => {
         this.restoreDevice(inverter, type)
       })
     }
   }
 
-  private getName (deviceSN: string, type: RealTimeType): string {
-    return `${deviceSN}-${RealTimeType[type]}`
+  private getName (deviceSN: string, type: string): string {
+    return `${deviceSN}-${type}`
   }
 
-  private restoreDevice (inverter: Inverter, type: RealTimeType): void {
+  private restoreDevice (inverter: Inverter, type: string): void {
     const name = this.getName(inverter.deviceSN, type)
     const uuid = this.api.hap.uuid.generate(name)
     this.log.debug(`Looking up: ${name}`)
@@ -80,18 +86,16 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     this.updateCurrentLevel().catch((e) => { this.log.error(`Unable to update levels: ${e}`) })
   }
 
-  private getRealTimeTypes (): RealTimeType[] {
-    return Object.values(RealTimeType).filter((v) => !isNaN(Number(v))).map((v) => v as RealTimeType)
-  }
-
   async updateCurrentLevel (): Promise<void> {
-    this.log.debug('Retrieving current levels')
-    const results = await FoxESS.getAllRealTimeData(this.apiKey)
-    results.forEach((item: BasicRealTimeData) => {
-      this.getRealTimeTypes().forEach((key) => {
-        const name = this.getName(item.deviceSN, key)
+    this.log.debug('Fetching real time data')
+    const results = await FoxESS.getRealTimeData(this.apiKey, { variables })
+    this.log.debug('Received result(s):', results.length)
+    results.forEach((item) => {
+      this.log.debug('Updating:', item.deviceSN)
+      item.datas.forEach((data) => {
+        const name = this.getName(item.deviceSN, data.variable)
         this.log.debug('Updating', name)
-        this.realTimeAccessories.get(name)?.update(item)
+        this.realTimeAccessories.get(name)?.update(data.value)
       })
     })
   }
