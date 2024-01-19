@@ -22,15 +22,17 @@ Example `config.json`:
 
 This plugin exposes HomeKit to solar data, provided by FoxESS.
 
-Currently, only a real-time usage service is available and will be exposed by default.
-The purpose of the plugin as it stands is to indicate when current solar generation exceeds usage.
-
 ## Parameters
 
 | Parameter | Description | Required | Default
 | --------- | ----- | ------- | ------ |
 | `apiKey`| API Key provided by FoxESS Cloud. | `true` | |
 | `interval`| How often to update current usage | `false` | `300000` (5 minutes) |
+
+## Features
+
+Currently, only a real-time usage service is available and will be exposed by default.
+The purpose of the plugin as it stands is to indicate when current solar generation exceeds usage.
 
 ## Obtaining an API Key
 
@@ -39,3 +41,12 @@ The purpose of the plugin as it stands is to indicate when current solar generat
 1. Under 'API Management', hit 'Generate API Key'.
 
 Note: There is currently a limit of 1440 calls per day for an API Key, equating to once per minute.
+
+## TODOs
+
+| Area | Item |
+| ---- | ---- |
+| Optimise API Usage | Allow device SNs to be specified in config, instead of requesting data from FoxESS. |
+| Optimise API Usage | Use a global timer to look-up real-time inverter data for all inverters, instead of 1 call per inverter. |
+| Functionality | Add a motion sensor to show when power usage is from the grid. |
+| Other | Move FoxESS Library into its own Node package |
