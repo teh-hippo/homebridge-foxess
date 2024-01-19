@@ -43,7 +43,7 @@ export class RealTimeUsageAccessory {
   }
 
   public update (value: BasicRealTimeData): void {
-    const newValue = this.getValue(value, this.type)
+    const newValue = this.getValue(value, this.type) * 1000
     this.currentValue = Math.max(minLightLevel, newValue)
     this.platform.log.debug('Current Usage', RealTimeType[this.type], newValue)
     this.service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).updateValue(this.currentValue)
@@ -59,6 +59,8 @@ export class RealTimeUsageAccessory {
         return value.feedinPower
       case RealTimeType.GridConsumptionPower:
         return value.gridConsumptionPower
+      default:
+        return 0
     }
   }
 }
