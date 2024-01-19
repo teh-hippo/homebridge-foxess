@@ -1,15 +1,7 @@
 import { Md5 } from 'ts-md5'
-import { RealTimeDataRequest, RealTimeDataVariables } from './RealTimeData'
-import type { RealTimeDataResponse } from './RealTimeData'
 
 function calculateSignature (path: string, apiKey: string, timestamp: number): string {
   return Md5.hashStr(`${path}\\r\\n${apiKey}\\r\\n${timestamp.toString()}`)
-}
-
-async function getRealTimeData (apiKey: string): Promise<RealTimeDataResponse> {
-  const request = new RealTimeDataRequest()
-  request.variables = RealTimeDataVariables
-  return await getApiCall('/op/v0/device/real/query', apiKey, new RealTimeDataRequest())
 }
 
 async function getApiCall<TRequest, TResponse> (path: string, apiKey: string, request: TRequest): Promise<TResponse> {
@@ -45,4 +37,4 @@ async function getApiCall<TRequest, TResponse> (path: string, apiKey: string, re
   }
 }
 
-export { getRealTimeData }
+export { getApiCall }

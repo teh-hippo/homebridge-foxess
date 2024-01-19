@@ -1,3 +1,5 @@
+import { getApiCall } from './lib'
+
 const RealTimeDataVariables: string[] = [
   /* Today Yield (kW) */
   'todayYield',
@@ -33,6 +35,16 @@ class RealTimeDataRequest {
 
 class RealTimeDataResponse {
   public errno: number | undefined
+  public result: RealTimeData[] | undefined
 }
 
-export { RealTimeDataRequest, RealTimeDataResponse, RealTimeDataVariables }
+async function getRealTimeData (apiKey: string): Promise<RealTimeData[]> {
+  const response: RealTimeDataResponse = await getApiCall('/op/v0/device/real/query', apiKey, new RealTimeDataRequest())
+  if (response.errno === 0 && response.result !== undefined) {
+    return response.result
+  } else {
+    throw new Error(`Invalid response code: ${response.errno}`)
+  }
+}
+
+export { getRealTimeData, RealTimeData }
