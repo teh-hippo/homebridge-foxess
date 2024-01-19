@@ -3,11 +3,12 @@ import type {
   Service
 } from 'homebridge'
 
-import type { FoxESSPlatform } from './platform'
-import * as FoxESS from './foxess/api'
+import type { FoxESSPlatform } from '../platform'
+import * as FoxESS from '../foxess/api'
 
 const minLightLevel = 0.0001
-class RealTimeUsageAccessory {
+
+export class RealTimeUsageAccessory {
   private readonly service: Service
   private readonly inverter: FoxESS.Inverter
   private currentValue: number = minLightLevel
@@ -50,5 +51,3 @@ class RealTimeUsageAccessory {
     this.service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).updateValue(this.currentValue)
   }
 }
-
-export { RealTimeUsageAccessory }

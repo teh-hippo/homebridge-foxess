@@ -2,7 +2,7 @@ import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccesso
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import type { Inverter } from './foxess/devices'
 import * as FoxESS from './foxess/api'
-import { RealTimeUsageAccessory } from './RealTimeUsageAccessory'
+import { RealTimeUsageAccessory } from './accessories/realTimeUsage'
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string

@@ -24,7 +24,6 @@ export async function call<TRequest, TResponse> (path: string, apiKey: string, r
     const json: string = await response.text()
     try {
       const result: TResponse = JSON.parse(json)
-      console.debug(`Response: ${json}`)
       return result
     } catch (e) {
       const mine = `Unable to parse JSON: ${json}\nRoot: `

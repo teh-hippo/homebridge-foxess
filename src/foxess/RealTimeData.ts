@@ -51,10 +51,8 @@ class RealTimeDataResponse {
 
 function toBasicData (data: RealTimeData): BasicRealTimeData {
   const result = new BasicRealTimeData()
-  console.debug(`toBasicData: received: ${JSON.stringify(data)}`)
   result.deviceSN = data.deviceSN
   data.datas.forEach(i => {
-    console.debug(`transform: ${i.name} => ${i.value}`)
     switch (i.variable) {
       case PvPower:
         result.pvPower = i.value
