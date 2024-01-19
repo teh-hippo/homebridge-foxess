@@ -1,0 +1,55 @@
+{
+  "name": "homebridge-foxess",
+  "displayName": "Homebridge FoxESS",
+  "version": "1.0.0",
+  "description": "Basic utility accessories for displaying solar FoxESS solar information in Homebridge: https://github.com/nfarina/homebridge",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "foxess",
+    "energizer",
+    "solar",
+    "energizer-solar",
+    "homebridge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/teh-hippo/homebridge-foxess.git"
+  },
+  "bugs": {
+    "url": "http://github.com/teh-hippo/homebridge-foxess/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/teh-hippo"
+  },
+  "main": "dist/accessory.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "homebridge": ">=1.3.5"
+  },
+  "scripts": {
+    "lint": "eslint src/**.ts --max-warnings=0",
+    "watch": "npm run build && npm link && nodemon",
+    "build": "rimraf ./dist && tsc",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "eslint": "^8.56.0",
+    "eslint-config-standard-with-typescript": "^43.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "homebridge": "^1.3.5",
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "ts-md5": "^1.3.1"
+  }
+}
