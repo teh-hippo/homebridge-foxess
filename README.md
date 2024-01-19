@@ -5,6 +5,12 @@
 
 # Homebridge FoxESS
 
+This plugin exposes HomeKit to solar data provided by FoxESS and those who use its platform, such as [Energizer Solar](https://portal.energizersolar.com/).
+
+Created are various accessories that help power-optimising automations in HomeKit.
+
+Currently, only a light sensor is exposed that indicates the current solar generation.
+
 *This plugin is still in early development.*
 
 Example `config.json`:
@@ -20,19 +26,12 @@ Example `config.json`:
     ]
 ```
 
-This plugin exposes HomeKit to solar data, provided by FoxESS.
-
 ## Parameters
 
 | Parameter | Description | Required | Default
 | --------- | ----- | ------- | ------ |
 | `apiKey`| API Key provided by FoxESS Cloud. | `true` | |
 | `interval`| How often to update current usage | `false` | `300000` (5 minutes) |
-
-## Features
-
-Currently, only a real-time usage service is available and will be exposed by default.
-The purpose of the plugin as it stands is to indicate when current solar generation exceeds usage.
 
 ## Obtaining an API Key
 
