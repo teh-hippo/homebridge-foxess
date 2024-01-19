@@ -23,7 +23,7 @@
                 "title": "Polling Time in Milliseconds",
                 "description": "Time between each call to the FoxESS API",
                 "type": "integer",
-                "default": 60000,
+                "default": 300000,
                 "required": true,
                 "minimum": 60000
             }
