@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6", // ~node10
     "module": "commonjs",
+    "moduleResolution": "Node",
     "lib": [
       "es2015",
       "es2016",
