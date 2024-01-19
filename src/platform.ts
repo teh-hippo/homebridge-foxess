@@ -3,6 +3,7 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import type { Inverter } from './foxess/devices'
 import * as FoxESS from './foxess/api'
 import { RealTimeUsageAccessory, RealTimeType } from './accessories/realTimeUsage'
+import { type BasicRealTimeData } from './foxess/realTimeData'
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
@@ -86,7 +87,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   async updateCurrentLevel (): Promise<void> {
     this.log.debug('Retrieving current levels')
     const results = await FoxESS.getAllRealTimeData(this.apiKey)
-    results.forEach((item) => {
+    results.forEach((item: BasicRealTimeData) => {
       this.getRealTimeTypes().forEach((key) => {
         const name = this.getName(item.deviceSN, key)
         this.log.debug('Updating', name)
