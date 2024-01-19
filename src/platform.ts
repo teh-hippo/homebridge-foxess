@@ -64,13 +64,13 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName)
       existingAccessory.context = inverter
       this.api.updatePlatformAccessories([existingAccessory])
-      this.realTimeAccessories[name] = new RealTimeUsageAccessory(this, existingAccessory, type)
+      this.realTimeAccessories.set(name, new RealTimeUsageAccessory(this, existingAccessory, type))
     } else {
       this.log.info('Adding new accessory:', name)
       // eslint-disable-next-line new-cap
       const accessory = new this.api.platformAccessory<Inverter>(name, uuid)
       accessory.context = inverter
-      this.realTimeAccessories[name] = new RealTimeUsageAccessory(this, accessory, type)
+      this.realTimeAccessories.set(name, new RealTimeUsageAccessory(this, accessory, type))
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory])
     }
   }
@@ -90,7 +90,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
       this.getRealTimeTypes().forEach((key) => {
         const name = this.getName(item.deviceSN, key)
         this.log.debug('Updating', name)
-        this.realTimeAccessories[name]?.update(item)
+        this.realTimeAccessories.get(name)?.update(item)
       })
     })
   }
