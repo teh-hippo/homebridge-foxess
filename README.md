@@ -49,3 +49,4 @@ Note: There is currently a limit of 1440 calls per day for an API Key, equating 
 | Optimise API Usage | Use a global timer to look-up real-time inverter data for all inverters, instead of 1 call per inverter. |
 | Functionality | Add a motion sensor to show when power usage is from the grid. |
 | Other | Move FoxESS Library into its own Node package |
+| Tests | Cover the FoxESS library more and basic behaviours of the Homebridge accessories |
