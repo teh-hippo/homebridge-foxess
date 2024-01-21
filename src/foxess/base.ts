@@ -1,6 +1,6 @@
 import { Md5 } from 'ts-md5'
 
-function calculateSignature (path: string, apiKey: string, timestamp: number): string {
+export function calculateSignature (path: string, apiKey: string, timestamp: number): string {
   return Md5.hashStr(`${path}\\r\\n${apiKey}\\r\\n${timestamp.toString()}`)
 }
 
