@@ -2,21 +2,16 @@ import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccesso
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import type { Inverter } from './foxess/devices'
 import * as FoxESS from './foxess/api'
-import { RealTimeUsageAccessory } from './accessories/realTimeUsage'
+import { InverterAccessory, Variables } from './accessories/inverterAccessory'
 
-const variables = [
-  'pvPower', // pvPower (kW)
-  'loadsPower', // Load Power (kW)
-  'generationPower', // Output Power (kW)
-  'feedinPower', // Feed-in Power (kW)
-  'gridConsumptionPower' // GridConsumption Power (kW)
-]
+const minInterval: number = 60 * 1000
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
+  private readonly interval: number
   public readonly Service: typeof Service = this.api.hap.Service
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic
-  private readonly realTimeAccessories: Map<string, RealTimeUsageAccessory> = new Map<string, RealTimeUsageAccessory>()
+  private readonly inverters: Map<string, InverterAccessory> = new Map<string, InverterAccessory>()
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = []
@@ -26,58 +21,80 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API
   ) {
-    this.log.debug('Initializing platform:', this.config.name)
+    this.log.info('Initialising platform')
     this.apiKey = config.apiKey
+    this.interval = Math.max(config.interval as number ?? minInterval, minInterval)
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback')
-      this.discoverDevices()
-        .then(() => {
-          setInterval(this.update.bind(this), interval)
-          this.update()
-        })
-        .catch((e) => { log.error(`Unable to discover: ${e}`) })
+      this.initialise()
     })
+  }
 
-    const interval = Math.max(config.interval as number ?? 60 * 1000, 60 * 1000)
-    this.log.debug(`Updating every ${interval}ms`)
+  private initialise (): void {
+    (async () => {
+      while (true) {
+        try {
+          await this.discoverDevices()
+          this.log.debug(`Updating every ${this.interval}ms`)
+          setInterval(this.update.bind(this), this.interval)
+          this.update()
+          break
+        } catch (e) {
+          this.log.error(`Unable to discover.  Will retry after ${minInterval}ms`, e)
+          setTimeout(this.initialise.bind(this), minInterval)
+        }
+      }
+    })().catch((e) => { this.log.error(`Unable to initialise: ${e}`) })
   }
 
   configureAccessory (accessory: PlatformAccessory): void {
-    this.log.info('Loading accessory from cache:', accessory.displayName)
+    this.log.debug('Loading accessory from cache:', accessory.displayName)
     this.accessories.push(accessory)
+  }
+
+  removeAccessory (accessory: PlatformAccessory): void {
+    this.log.info('Removing accessory:', accessory.displayName)
+    this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory])
   }
 
   async discoverDevices (): Promise<void> {
     const inverters = await FoxESS.getDeviceList(this.apiKey)
 
     for (const inverter of inverters) {
-      variables.forEach((type) => {
-        this.restoreDevice(inverter, type)
-      })
+      this.createInverter(inverter)
+    }
+
+    for (const accessory of this.accessories) {
+      const context = accessory.context as Inverter
+      if (context === undefined) {
+        this.log.error('Unknown context for accessory:', accessory.displayName, 'data: ', JSON.stringify(accessory.context))
+      } else {
+        this.log.debug('Checking:', context.deviceSN)
+        if (!this.inverters.has(context.deviceSN)) {
+          this.removeAccessory(accessory)
+        }
+      }
     }
   }
 
-  private getName (deviceSN: string, type: string): string {
-    return `${deviceSN}-${type}`
-  }
-
-  private restoreDevice (inverter: Inverter, type: string): void {
-    const name = this.getName(inverter.deviceSN, type)
-    const uuid = this.api.hap.uuid.generate(name)
-    this.log.debug(`Looking up: ${name}`)
+  private createInverter (inverter: Inverter): void {
+    const uuid = this.api.hap.uuid.generate(inverter.deviceSN)
+    this.log.debug('Looking up:', inverter.deviceSN)
     const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid) as PlatformAccessory<Inverter>
+    const displayName = `Inverter ${inverter.deviceSN}`
 
     if (existingAccessory != null) {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName)
       existingAccessory.context = inverter
+      existingAccessory.displayName = displayName
       this.api.updatePlatformAccessories([existingAccessory])
-      this.realTimeAccessories.set(name, new RealTimeUsageAccessory(this, existingAccessory, type))
+      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, existingAccessory))
     } else {
-      this.log.info('Adding new accessory:', name)
+      this.log.info('Adding new accessory:', displayName)
       // eslint-disable-next-line new-cap
-      const accessory = new this.api.platformAccessory<Inverter>(name, uuid)
+      const accessory = new this.api.platformAccessory<Inverter>(displayName, uuid)
       accessory.context = inverter
-      this.realTimeAccessories.set(name, new RealTimeUsageAccessory(this, accessory, type))
+      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, accessory))
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory])
     }
   }
@@ -88,15 +105,16 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
 
   async updateCurrentLevel (): Promise<void> {
     this.log.debug('Fetching real time data')
-    const results = await FoxESS.getRealTimeData(this.apiKey, { variables })
+    const results = await FoxESS.getRealTimeData(this.apiKey, { variables: Array.from(Variables.keys()) })
     this.log.debug('Received result(s):', results.length)
-    results.forEach((item) => {
-      this.log.debug('Updating:', item.deviceSN)
-      item.datas.forEach((data) => {
-        const name = this.getName(item.deviceSN, data.variable)
-        this.log.debug('Updating', name)
-        this.realTimeAccessories.get(name)?.update(data.value)
-      })
+    results.forEach((result) => {
+      const inverter = this.inverters.get(result.deviceSN)
+      if (inverter === undefined) {
+        this.log.error('Unable to find inverter:', result.deviceSN)
+      } else {
+        this.log.debug('Updating:', result.deviceSN)
+        inverter.update(result)
+      }
     })
   }
 }
