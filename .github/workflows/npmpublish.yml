@@ -16,8 +16,11 @@ jobs:
       - uses: actions/setup-node@v4.0.1
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm run prepublishOnly
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm test
 
   publish-npm:
     needs: build
@@ -28,7 +31,10 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
