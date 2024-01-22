@@ -31,6 +31,7 @@
   "scripts": {
     "lint": "eslint --fix --max-warnings=0 src/**/*.ts",
     "watch": "npm run build && npm link && nodemon",
+    "debug": "npm run build && npm link && homebridge -I -D",
     "build": "rimraf ./dist && tsc",
     "pretest": "npm run build",
     "prepublishOnly": "npm run lint && npm run build",
