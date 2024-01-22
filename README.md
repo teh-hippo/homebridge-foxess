@@ -50,3 +50,4 @@ Note: There is currently a limit of 1440 calls per day for an API Key, equating 
 | Functionality | Add a motion sensor to show when power usage is from the grid. |
 | Other | Move FoxESS Library into its own Node package |
 | Tests | Cover the FoxESS library more and basic behaviours of the Homebridge accessories |
+| Functionality | Support [Fakegato](https://github.com/simont77/fakegato-history) |
