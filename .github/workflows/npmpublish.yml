@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4.0.1
         with:
           node-version: 20
-      - run: npm ci
+      - run: npm ci --progress=false
       - run: npm run prepublishOnly
 
   publish-npm:
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: npm ci --progress=false
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
