@@ -34,7 +34,7 @@
     "pretest": "npm run build",
     "test": "jest tests",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
-    "debug": "npm run build && npm link && homebridge -I -D",
+    "debug": "tsc -b -i && homebridge -I -D -P .",
     "prepublishOnly": "npm run clean && npm run lint && npm test"
   },
   "devDependencies": {
