@@ -29,13 +29,12 @@
     "homebridge": ">=1.7.0"
   },
   "scripts": {
-    "lint": "eslint --fix --max-warnings=0 src/**/*.ts",
-    "watch": "npm run build && npm link && nodemon",
-    "debug": "npm run build && npm link && homebridge -I -D",
     "build": "rimraf ./dist && tsc",
     "pretest": "npm run build",
-    "prepublishOnly": "npm run lint && npm run build",
-    "test": "jest tests"
+    "test": "jest tests",
+    "lint": "eslint --max-warnings=0 src/**/*.ts",
+    "debug": "npm run build && npm link && homebridge -I -D",
+    "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
@@ -49,7 +48,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "homebridge": "^1.7.0",
     "jest": "^29.7.0",
-    "nodemon": "^3.0.3",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
