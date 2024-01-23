@@ -9,6 +9,7 @@ const minInterval: number = 60 * 1000
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
   private readonly interval: number
+  private failCount: number = 0
   public readonly Service: typeof Service = this.api.hap.Service
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic
   private readonly inverters: Map<string, InverterAccessory> = new Map<string, InverterAccessory>()
@@ -100,7 +101,17 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   }
 
   update (): void {
-    this.updateCurrentLevel().catch((e) => { this.log.error(`Unable to update levels: ${e}`) })
+    this.updateCurrentLevel()
+      .then(() => { this.failCount = 0 })
+      .catch((e) => {
+        const message = 'Unable to update levels:'
+        if (this.failCount >= 10) {
+          this.log.warn(message, e)
+        } else {
+          this.failCount++
+          this.log.error(message, e)
+        }
+      })
   }
 
   async updateCurrentLevel (): Promise<void> {
