@@ -9,6 +9,7 @@
       "es2018"
     ],
     "sourceMap": true,
+    "incremental": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,

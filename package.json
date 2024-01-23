@@ -29,12 +29,13 @@
     "homebridge": ">=1.7.0"
   },
   "scripts": {
-    "build": "rimraf ./dist && tsc --noEmit",
+    "clean": "rimraf ./dist",
+    "build": "tsc -b -i",
     "pretest": "npm run build",
     "test": "jest tests",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
     "debug": "npm run build && npm link && homebridge -I -D",
-    "prepublishOnly": "npm run lint && npm test"
+    "prepublishOnly": "npm run clean && npm run lint && npm test"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
