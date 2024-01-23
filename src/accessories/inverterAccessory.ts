@@ -6,7 +6,6 @@ import type { RealTimeData } from '../foxess/realTimeData'
 const minLightLevel = 0.0001
 
 export const Variables: Map<string, string> = new Map<string, string>([
-  ['pvPower', 'pvPower'], // pvPower (kW)
   ['loadsPower', 'Load Power'], // Load Power (kW)
   ['generationPower', 'Output Power'], // Output Power (kW)
   ['feedinPower', 'Feed-in Power'], // Feed-in Power (kW)
