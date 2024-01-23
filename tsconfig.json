@@ -14,7 +14,9 @@
     "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true
   },
   "include": [
     "src/**/*"
