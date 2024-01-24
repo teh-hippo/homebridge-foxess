@@ -30,7 +30,7 @@
   },
   "scripts": {
     "forceClean": "rimraf ./dist",
-    "build": "tsc -b -c -i",
+    "build": "tsc -b -i",
     "pretest": "npm run build",
     "test": "jest tests",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
