@@ -35,7 +35,7 @@
     "test": "jest tests",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
     "debug": "tsc -b -i && homebridge -I -D -P .",
-    "prepublish": "npm run clean && npm run lint && npm test",
+    "prepublish": "npm run clean && npm run lint && npm test"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
