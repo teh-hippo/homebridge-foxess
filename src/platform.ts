@@ -33,17 +33,14 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
 
   private initialise (): void {
     (async () => {
-      while (true) {
-        try {
-          await this.discoverDevices()
-          this.log.debug(`Updating every ${this.interval}ms`)
-          setInterval(this.update.bind(this), this.interval)
-          this.update()
-          break
-        } catch (e) {
-          this.log.error(`Unable to discover.  Will retry after ${minInterval}ms`, e)
-          setTimeout(this.initialise.bind(this), minInterval)
-        }
+      try {
+        await this.discoverDevices()
+        this.log.debug(`Updating every ${this.interval}ms`)
+        setInterval(this.update.bind(this), this.interval)
+        this.update()
+      } catch (e) {
+        this.log.error(`Unable to discover.  Will retry after ${minInterval}ms`, e)
+        setTimeout(this.initialise.bind(this), minInterval)
       }
     })().catch((e) => { this.log.error(`Unable to initialise: ${e}`) })
   }
