@@ -10,8 +10,8 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
   private readonly interval: number
   private failCount: number = 0
-  public readonly Service: typeof Service = this.api.hap.Service
-  public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic
+  public readonly Service: typeof Service
+  public readonly Characteristic: typeof Characteristic
   private readonly inverters: Map<string, InverterAccessory> = new Map<string, InverterAccessory>()
 
   // this is used to track restored cached accessories
@@ -22,6 +22,8 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API
   ) {
+    this.Service = this.api.hap.Service
+    this.Characteristic = this.api.hap.Characteristic
     this.log.info('Initialising platform')
     this.apiKey = config.apiKey
     this.interval = Math.max(config.interval as number ?? minInterval, minInterval)
