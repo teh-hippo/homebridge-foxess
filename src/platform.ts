@@ -104,10 +104,10 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
       .then(() => { this.failCount = 0 })
       .catch((e) => {
         const message = 'Unable to update levels:'
-        if (this.failCount >= 10) {
+        if (this.failCount < 10) {
+          this.failCount++
           this.log.warn(message, e)
         } else {
-          this.failCount++
           this.log.error(message, e)
         }
       })
