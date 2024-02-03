@@ -34,10 +34,10 @@ export class InverterAccessory {
       const service = this.accessory.getService(displayName) ?? this.accessory.addService(this.platform.Service.LightSensor, displayName, variable)
       this.values.set(variable, minLightLevel)
       service.setCharacteristic(this.platform.Characteristic.Name, displayName)
-      // TODO: Call the inverter APIs to update the status and fault characteristics.
-      service.setCharacteristic(this.platform.Characteristic.StatusActive, true)
+      service.setCharacteristic(this.platform.Characteristic.StatusActive, false)
       service.setCharacteristic(this.platform.Characteristic.StatusFault, false)
       service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).onGet(() => this.values.get(variable) ?? minLightLevel)
+      service.getCharacteristic(this.platform.Characteristic.StatusActive).onGet(() => (this.values.get(variable) ?? minLightLevel) > minLightLevel)
     })
 
     this.platform.log.debug('Validating', this.accessory.services.length, 'service(s):', this.accessory.services.map((s) => s.displayName))
@@ -64,7 +64,8 @@ export class InverterAccessory {
       const newValue = Math.max(data.value * 1000, minLightLevel)
       this.platform.log.debug('Updating', this.inverter.deviceSN, data.variable, '=', newValue)
       this.values.set(data.variable, Math.max(minLightLevel, newValue))
-      service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).updateValue(newValue)
+      service.setCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel, newValue)
+      service.setCharacteristic(this.platform.Characteristic.StatusActive, newValue > minLightLevel)
     })
   }
 }
