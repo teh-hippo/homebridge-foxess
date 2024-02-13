@@ -30,11 +30,11 @@
   },
   "scripts": {
     "forceClean": "rimraf ./dist",
-    "build": "tsc -b -i",
+    "build": "tsc",
     "pretest": "npm run build",
     "test": "jest tests",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
-    "debug": "tsc -b -i && homebridge -I -D -P .",
+    "debug": "npm run build && homebridge -I -D -P .",
     "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
