@@ -23,11 +23,16 @@ export class InverterAccessory {
     if (informationService === undefined) {
       throw new Error('No information service was provided.')
     }
+
+    const configuredServices: any[] = []
+
     informationService
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'FoxESS')
       .setCharacteristic(this.platform.Characteristic.Model, this.inverter.deviceType)
       .setCharacteristic(this.platform.Characteristic.SerialNumber, this.inverter.deviceSN)
       .setCharacteristic(this.platform.Characteristic.HardwareRevision, this.inverter.productType)
+
+    configuredServices.push(informationService)
 
     Variables.forEach((displayName, variable) => {
       this.platform.log.debug('Creating service for', displayName)
@@ -38,10 +43,11 @@ export class InverterAccessory {
       service.setCharacteristic(this.platform.Characteristic.StatusFault, false)
       service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).onGet(() => this.values.get(variable) ?? minLightLevel)
       service.getCharacteristic(this.platform.Characteristic.StatusActive).onGet(() => (this.values.get(variable) ?? minLightLevel) > minLightLevel)
+      configuredServices.push(service)
     })
 
     this.platform.log.debug('Validating', this.accessory.services.length, 'service(s):', this.accessory.services.map((s) => s.displayName))
-    const stale = this.accessory.services.filter((s) => s !== informationService && (s.subtype === undefined || Variables.get(s.subtype) !== s.displayName))
+    const stale = this.accessory.services.filter((s) => !configuredServices.includes(s))
     this.platform.log.debug('Removing', stale.length, ' stale service(s):', stale.map((s) => s.displayName))
     stale.forEach((service) => {
       this.accessory.removeService(service)
