@@ -17,7 +17,8 @@
                 "title": "API Key",
                 "description": "API Key provided by FoxESS",
                 "type": "string",
-                "required": true
+                "required": true,
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
             },
             "interval": {
                 "title": "Polling Time in Milliseconds",
