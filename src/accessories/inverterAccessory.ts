@@ -64,8 +64,8 @@ export class InverterAccessory {
       const newValue = Math.max(data.value * 1000, minLightLevel)
       this.platform.log.debug('Updating', this.inverter.deviceSN, data.variable, '=', newValue)
       this.values.set(data.variable, Math.max(minLightLevel, newValue))
-      service.setCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel, newValue)
-      service.setCharacteristic(this.platform.Characteristic.StatusActive, newValue > minLightLevel)
+      service.updateCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel, newValue)
+      service.updateCharacteristic(this.platform.Characteristic.StatusActive, newValue > minLightLevel)
     })
   }
 }
