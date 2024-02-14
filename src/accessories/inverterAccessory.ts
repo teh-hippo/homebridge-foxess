@@ -1,22 +1,25 @@
-import type { PlatformAccessory } from 'homebridge'
+import type { CharacteristicGetHandler, Characteristic, PlatformAccessory } from 'homebridge'
 import type { FoxESSPlatform } from '../platform'
 import type { Inverter } from '../foxess/devices'
 import type { RealTimeData } from '../foxess/realTimeData'
+import { type Indicators } from '../indicators'
 
 const minLightLevel = 0.0001
 
 export const Variables: Map<string, string> = new Map<string, string>([
-  ['loadsPower', 'Load Power'], // Load Power (kW)
-  ['generationPower', 'Output Power'], // Output Power (kW)
-  ['feedinPower', 'Feed-in Power'], // Feed-in Power (kW)
-  ['gridConsumptionPower', 'Grid Consumption Power'] // GridConsumption Power (kW)
+  ['loadsPower', 'Load Power'], // Load Power (kW); House usage.
+  ['generationPower', 'Output Power'], // Output Power (kW); Solar generation.
+  ['feedinPower', 'Feed-in Power'], // Feed-in Power (kW); Exported power.
+  ['gridConsumptionPower', 'Grid Consumption Power'] // GridConsumption Power (kW); Imported power.
 ])
 
 export class InverterAccessory {
   private readonly inverter: Inverter
   private readonly values: Map<string, number> = new Map<string, number>()
+  private readonly gridUsageSwitchOn: Characteristic | undefined
+  private readonly generationSwitchOn: Characteristic | undefined
 
-  constructor (private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<Inverter>) {
+  constructor (private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<Inverter>, private readonly indicators: Indicators | undefined) {
     this.platform.log.info('Initialising inverter:', this.accessory.displayName)
     this.inverter = this.accessory.context
     const informationService = this.accessory.getService(this.platform.Service.AccessoryInformation)
@@ -46,12 +49,40 @@ export class InverterAccessory {
       configuredServices.push(service)
     })
 
+    if (indicators !== undefined) {
+      this.generationSwitchOn = indicators.generation ? this.setupSwitch(configuredServices, 'Generation', 'generation', this.generationSwitchState.bind(this)) : undefined
+      this.gridUsageSwitchOn = indicators.gridUsage ? this.setupSwitch(configuredServices, 'Grid Usage', 'gridUsage', this.gridUsageSwitchState.bind(this)) : undefined
+    }
+
     this.platform.log.debug('Validating', this.accessory.services.length, 'service(s):', this.accessory.services.map((s) => s.displayName))
     const stale = this.accessory.services.filter((s) => !configuredServices.includes(s))
     this.platform.log.debug('Removing', stale.length, ' stale service(s):', stale.map((s) => s.displayName))
     stale.forEach((service) => {
       this.accessory.removeService(service)
     })
+  }
+
+  private setupSwitch (configuredServices: any[], name: string, variable: string, handler: CharacteristicGetHandler): Characteristic {
+    const service = this.accessory.getService(name) ?? this.accessory.addService(this.platform.Service.Switch, name, variable)
+    const characteristic = service.getCharacteristic(this.platform.Characteristic.On)
+    characteristic.onSet(this.updateSwitches.bind(this))
+    characteristic.onGet(handler.bind(this))
+    configuredServices.push(service)
+    return characteristic
+  }
+
+  private generationSwitchState (): boolean {
+    return this.indicators !== undefined && (this.values.get('generationPower') ?? minLightLevel) >= this.indicators.generationThreshold
+  }
+
+  private gridUsageSwitchState (): boolean {
+    return this.indicators !== undefined && (this.values.get('gridConsumptionPower') ?? minLightLevel) > this.indicators.gridUsageThreshold
+  }
+
+  private updateSwitches (): void {
+    if (this.indicators === undefined) return
+    this.generationSwitchOn?.updateValue(this.generationSwitchState())
+    this.gridUsageSwitchOn?.updateValue(this.gridUsageSwitchState())
   }
 
   public update (value: RealTimeData): void {
@@ -73,5 +104,7 @@ export class InverterAccessory {
       service.updateCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel, newValue)
       service.updateCharacteristic(this.platform.Characteristic.StatusActive, newValue > minLightLevel)
     })
+
+    this.updateSwitches()
   }
 }
