@@ -3,12 +3,14 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import type { Inverter } from './foxess/devices'
 import * as FoxESS from './foxess/api'
 import { InverterAccessory, Variables } from './accessories/inverterAccessory'
+import { type Indicators } from './indicators'
 
 const minInterval: number = 60 * 1000
 
 export class FoxESSPlatform implements DynamicPlatformPlugin {
   public readonly apiKey: string
   private readonly interval: number
+  private readonly indicators: Indicators | undefined
   private failCount: number = 0
   public readonly Service: typeof Service
   public readonly Characteristic: typeof Characteristic
@@ -26,6 +28,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     this.Characteristic = this.api.hap.Characteristic
     this.log.info('Initialising platform')
     this.apiKey = config.apiKey
+    this.indicators = config.createPerformanceIndicators as boolean ? config.indicators : undefined
     this.interval = Math.max(config.interval as number ?? minInterval, minInterval)
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback')
@@ -88,13 +91,13 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
       existingAccessory.context = inverter
       existingAccessory.displayName = displayName
       this.api.updatePlatformAccessories([existingAccessory])
-      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, existingAccessory))
+      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, existingAccessory, this.indicators))
     } else {
       this.log.info('Adding new accessory:', displayName)
       // eslint-disable-next-line new-cap
       const accessory = new this.api.platformAccessory<Inverter>(displayName, uuid)
       accessory.context = inverter
-      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, accessory))
+      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, accessory, this.indicators))
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory])
     }
   }

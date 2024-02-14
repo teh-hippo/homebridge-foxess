@@ -27,7 +27,55 @@
                 "default": 300000,
                 "required": true,
                 "minimum": 60000
+            },
+            "createPerformanceIndicators": {
+                "title": "Create Performance Indicators",
+                "description": "Creates a set of switches that indicate the current performance of the panels",
+                "type": "boolean",
+                "default": false,
+                "required": true
+            },
+            "indicators": {
+                "title": "Performance Indicators",
+                "type": "object",
+                "condition": {
+                    "functionBody": "return model.createPerformanceIndicators === true"
+                },
+                "properties": {
+                    "gridUsage": {
+                        "title": "Grid Usage",
+                        "description": "Creates a switch that indicates active grid usage",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "gridUsageThreshold": {
+                        "title": "Grid Usage Threshold",
+                        "description": "Threshold grid usage must exceed before the switch is activated",
+                        "type": "number",
+                        "minimum": 0.001,
+                        "default": 0.001,
+                        "condition": {
+                            "functionBody": "return model.indicators.gridUsageSwitch === true"
+                        }
+                    },
+                    "generation": {
+                        "title": "Generation",
+                        "description": "Creates a switch that switch that indicates active generation",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "generationThreshold": {
+                        "title": "Generation Threshold",
+                        "description": "Threshold generation must exceed before the switch is activated",
+                        "type": "number",
+                        "minimum": 0.001,
+                        "default": 5000,
+                        "condition": {
+                            "functionBody": "return model.indicators.generationSwitch === true"
+                        }
+                    }
+                }
             }
         }
     }
-  }
+}
