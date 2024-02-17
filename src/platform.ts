@@ -1,7 +1,6 @@
 import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccessory, type PlatformConfig, type Service, type Characteristic } from 'homebridge'
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
-import type { Inverter } from './foxess/devices'
-import * as FoxESS from './foxess/api'
+import { type Inverter, getDeviceList, getRealTimeData } from './foxess/inverter'
 import { InverterAccessory, Variables } from './accessories/inverterAccessory'
 import { type Indicators } from './indicators'
 
@@ -61,7 +60,12 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices (): Promise<void> {
-    const inverters = await FoxESS.getDeviceList(this.apiKey)
+    const inverters = await getDeviceList(this.apiKey)
+    if (inverters === undefined) {
+      // Introduce a retry approach.
+      this.log.error('No result was returned.')
+      return
+    }
 
     for (const inverter of inverters) {
       this.createInverter(inverter)
@@ -117,7 +121,11 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
 
   async updateCurrentLevel (): Promise<void> {
     this.log.debug('Fetching real time data')
-    const results = await FoxESS.getRealTimeData(this.apiKey, { variables: Array.from(Variables.keys()) })
+    const results = await getRealTimeData(this.apiKey, { variables: Array.from(Variables.keys()) })
+    if (results === undefined) {
+      this.log.warn('No results came through.')
+      return
+    }
     this.log.debug('Received result(s):', results.length)
     results.forEach((result) => {
       const inverter = this.inverters.get(result.deviceSN)

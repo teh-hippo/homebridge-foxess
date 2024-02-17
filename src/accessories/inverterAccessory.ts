@@ -1,8 +1,7 @@
 import type { CharacteristicGetHandler, Characteristic, PlatformAccessory } from 'homebridge'
 import type { FoxESSPlatform } from '../platform'
-import type { Inverter } from '../foxess/devices'
-import type { RealTimeData } from '../foxess/realTimeData'
 import { type Indicators } from '../indicators'
+import type { Inverter, RealTimeData } from '../foxess/inverter'
 
 const minLightLevel = 0.0001
 
