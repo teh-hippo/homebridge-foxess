@@ -1,4 +1,4 @@
-import type { CharacteristicGetHandler, Characteristic, PlatformAccessory } from 'homebridge'
+import type { CharacteristicGetHandler, Characteristic, PlatformAccessory, Service } from 'homebridge'
 import type { FoxESSPlatform } from '../platform'
 import type { Indicators } from '../indicators'
 import { inverter } from 'foxess-lib'
@@ -17,7 +17,7 @@ export class InverterAccessory {
   private readonly gridUsageSwitchOn: Characteristic | undefined
   private readonly generationSwitchOn: Characteristic | undefined
 
-  constructor (private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<inverter.Inverter>, private readonly indicators: Indicators | undefined) {
+  constructor(private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<inverter.Inverter>, private readonly indicators: Indicators | undefined) {
     this.platform.log.info('Initialising inverter:', this.accessory.displayName)
     this.inverter = this.accessory.context
     const informationService = this.accessory.getService(this.platform.Service.AccessoryInformation)
@@ -25,7 +25,7 @@ export class InverterAccessory {
       throw new Error('No information service was provided.')
     }
 
-    const configuredServices: any[] = []
+    const configuredServices: Service[] = []
 
     informationService
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'FoxESS')
@@ -52,15 +52,15 @@ export class InverterAccessory {
       this.gridUsageSwitchOn = indicators.gridUsage ? this.setupSwitch(configuredServices, 'Grid Usage', 'gridUsage', this.gridUsageSwitchState.bind(this)) : undefined
     }
 
-    this.platform.log.debug('Validating', this.accessory.services.length, 'service(s):', this.accessory.services.map((s) => s.displayName))
-    const stale = this.accessory.services.filter((s) => !configuredServices.includes(s))
-    this.platform.log.debug('Removing', stale.length, ' stale service(s):', stale.map((s) => s.displayName))
+    this.platform.log.debug('Validating', this.accessory.services.length, 'service(s):', this.accessory.services.map(s => s.displayName))
+    const stale = this.accessory.services.filter(s => !configuredServices.includes(s))
+    this.platform.log.debug('Removing', stale.length, ' stale service(s):', stale.map(s => s.displayName))
     stale.forEach((service) => {
       this.accessory.removeService(service)
     })
   }
 
-  private setupSwitch (configuredServices: any[], name: string, variable: string, handler: CharacteristicGetHandler): Characteristic {
+  private setupSwitch(configuredServices: Service[], name: string, variable: string, handler: CharacteristicGetHandler): Characteristic {
     const service = this.accessory.getService(name) ?? this.accessory.addService(this.platform.Service.Switch, name, variable)
     const characteristic = service.getCharacteristic(this.platform.Characteristic.On)
     characteristic.onSet(this.updateSwitches.bind(this))
@@ -69,21 +69,21 @@ export class InverterAccessory {
     return characteristic
   }
 
-  private generationSwitchState (): boolean {
+  private generationSwitchState(): boolean {
     return this.indicators !== undefined && (this.values.get('generationPower') ?? minLightLevel) >= this.indicators.generationThreshold
   }
 
-  private gridUsageSwitchState (): boolean {
+  private gridUsageSwitchState(): boolean {
     return this.indicators !== undefined && (this.values.get('gridConsumptionPower') ?? minLightLevel) > this.indicators.gridUsageThreshold
   }
 
-  private updateSwitches (): void {
+  private updateSwitches(): void {
     if (this.indicators === undefined) return
     this.generationSwitchOn?.updateValue(this.generationSwitchState())
     this.gridUsageSwitchOn?.updateValue(this.gridUsageSwitchState())
   }
 
-  public update (value: inverter.RealTimeData): void {
+  public update(value: inverter.RealTimeData): void {
     this.platform.log.debug('Updating', this.accessory.displayName, 'with', value.datas.length, 'value(s)')
     value.datas.forEach((data) => {
       const serviceName = Variables.get(data.variable)
