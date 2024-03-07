@@ -6,7 +6,6 @@
     "sourceMap": true,
     "incremental": true,
     "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
