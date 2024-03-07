@@ -1,9 +1,7 @@
 import type { CharacteristicGetHandler, Characteristic, PlatformAccessory } from 'homebridge'
 import type { FoxESSPlatform } from '../platform'
-import type { Inverter } from '../foxess/devices'
-import type { RealTimeData } from '../foxess/realTimeData'
-import { type Indicators } from '../indicators'
-
+import type { Indicators } from '../indicators'
+import { inverter } from 'foxess-lib'
 const minLightLevel = 0.0001
 
 export const Variables: Map<string, string> = new Map<string, string>([
@@ -14,12 +12,12 @@ export const Variables: Map<string, string> = new Map<string, string>([
 ])
 
 export class InverterAccessory {
-  private readonly inverter: Inverter
+  private readonly inverter: inverter.Inverter
   private readonly values: Map<string, number> = new Map<string, number>()
   private readonly gridUsageSwitchOn: Characteristic | undefined
   private readonly generationSwitchOn: Characteristic | undefined
 
-  constructor (private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<Inverter>, private readonly indicators: Indicators | undefined) {
+  constructor (private readonly platform: FoxESSPlatform, private readonly accessory: PlatformAccessory<inverter.Inverter>, private readonly indicators: Indicators | undefined) {
     this.platform.log.info('Initialising inverter:', this.accessory.displayName)
     this.inverter = this.accessory.context
     const informationService = this.accessory.getService(this.platform.Service.AccessoryInformation)
@@ -85,7 +83,7 @@ export class InverterAccessory {
     this.gridUsageSwitchOn?.updateValue(this.gridUsageSwitchState())
   }
 
-  public update (value: RealTimeData): void {
+  public update (value: inverter.RealTimeData): void {
     this.platform.log.debug('Updating', this.accessory.displayName, 'with', value.datas.length, 'value(s)')
     value.datas.forEach((data) => {
       const serviceName = Variables.get(data.variable)
