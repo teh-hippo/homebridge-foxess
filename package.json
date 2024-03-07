@@ -38,8 +38,8 @@
     "prepublishOnly": "npm run lint && npm test"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.11.17",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.56.0",
@@ -55,6 +55,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "ts-md5": "^1.3.1"
+    "foxess-lib": "^0.2.0"
   }
 }
