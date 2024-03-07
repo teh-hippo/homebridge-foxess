@@ -1,7 +1,7 @@
 {
   "name": "homebridge-foxess",
   "displayName": "Homebridge FoxESS",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Basic utility accessories for displaying solar FoxESS solar information in Homebridge: https://github.com/nfarina/homebridge",
   "license": "MIT",
   "keywords": [
