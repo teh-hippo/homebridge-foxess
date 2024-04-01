@@ -60,7 +60,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices(): Promise<void> {
-    const inverters = await inverter.getDeviceList(this.apiKey)
+    const inverters = await inverter.getDevices(this.apiKey)
     for (const inverter of inverters) {
       this.createInverter(inverter)
     }
