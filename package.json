@@ -46,6 +46,6 @@
     "typescript-eslint": "^7.1.1"
   },
   "dependencies": {
-    "foxess-lib": "^0.2.1"
+    "foxess-lib": "^0.2.5"
   }
 }
