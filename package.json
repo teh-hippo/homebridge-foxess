@@ -12,12 +12,13 @@
     "energizer-solar",
     "homebridge"
   ],
+  "homepage": "https://github.com/teh-hippo/homebridge-foxess",
   "repository": {
     "type": "git",
     "url": "git://github.com/teh-hippo/homebridge-foxess.git"
   },
   "bugs": {
-    "url": "http://github.com/teh-hippo/homebridge-foxess/issues"
+    "url": "https://github.com/teh-hippo/homebridge-foxess/issues"
   },
   "funding": {
     "type": "github",
