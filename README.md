@@ -1,3 +1,4 @@
+[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 ![node](https://img.shields.io/node/v/homebridge-foxess)
 [![npm](https://img.shields.io/npm/dt/homebridge-foxess.svg)](https://www.npmjs.com/package/homebridge-foxess)
 [![npm version](https://badge.fury.io/js/homebridge-foxess.svg)](https://badge.fury.io/js/homebridge-foxess)
