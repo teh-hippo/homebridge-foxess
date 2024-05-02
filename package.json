@@ -34,19 +34,20 @@
     "build": "tsc",
     "lint": "eslint --max-warnings=0 src/**/*.ts",
     "lintAndFix": "eslint --fix --max-warnings=0 src/**/*.ts",
-    "debug": "npm run build && homebridge -I -D -P ."
+    "debug": "pnpm build && homebridge -I -D -P ."
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^1.6.3",
-    "@types/node": "^20.11.19",
+    "@stylistic/eslint-plugin": "^1.8.0",
+    "@types/node": "^20.12.8",
     "eslint": "^8.57.0",
-    "homebridge": "^1.7.0",
+    "homebridge": "^1.8.1",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "typescript-eslint": "^7.1.1"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
   },
   "dependencies": {
     "foxess-lib": "^0.2.5"
-  }
+  },
+  "packageManager": "pnpm@9.1.0-0+sha256.c557b24d2298d9b5e3be7086ebf55a28253b008324d545f72645a6de89844102"
 }
