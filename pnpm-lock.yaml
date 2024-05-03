@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       foxess-lib:
-        specifier: ^0.2.5
-        version: 0.2.5
+        specifier: ^0.2.8
+        version: 0.2.8
     devDependencies:
       '@stylistic/eslint-plugin':
         specifier: ^1.8.0
@@ -520,8 +520,8 @@ packages:
     resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
     engines: {node: '>=14'}
 
-  foxess-lib@0.2.5:
-    resolution: {integrity: sha512-CLK8XdwVx+dqXoOyspm8jTRKouWxVwrVD8EmlnpscHc59oM3sd2UBZODrihLgtXfTgnH4HBA48lL9WDTxlyuYQ==}
+  foxess-lib@0.2.8:
+    resolution: {integrity: sha512-YuxBjw0sRSnr+rjEDhcTjwXHk+4bA/4MPJiuJat0onxzutJum2yxK/hVkHlDcaHwb5WLtL/mbiXQX5NfJpNbsg==}
     engines: {node: '>=16.14'}
 
   from@0.1.7:
@@ -1759,7 +1759,7 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
-  foxess-lib@0.2.5:
+  foxess-lib@0.2.8:
     dependencies:
       openapi-fetch: 0.9.5
       openapi-types: 12.1.3
