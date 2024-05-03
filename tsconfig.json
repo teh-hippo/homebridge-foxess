@@ -8,8 +8,6 @@
       "es2017",
       "es2018"
     ],
-    // "declaration": true,
-    // "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src",
