@@ -81,10 +81,9 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   private createInverter(inverter: inverter.Inverter): void {
     const uuid = this.api.hap.uuid.generate(inverter.deviceSN)
     this.log.debug('Looking up:', inverter.deviceSN)
-    const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid) as PlatformAccessory<inverter.Inverter>
+    const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid) as PlatformAccessory<inverter.Inverter> | undefined
     const displayName = `Inverter ${inverter.deviceSN}`
-
-    if ('displayName' in existingAccessory) {
+    if (existingAccessory !== undefined && 'displayName' in existingAccessory) {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName)
       existingAccessory.context = inverter
       existingAccessory.displayName = displayName
