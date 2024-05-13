@@ -37,7 +37,7 @@
     "debug": "pnpm build && homebridge -I -D -P ."
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^1.8.0",
+    "@stylistic/eslint-plugin": "^2.1.0",
     "@types/node": "^20.12.8",
     "eslint": "^8.57.0",
     "homebridge": "^1.8.1",
