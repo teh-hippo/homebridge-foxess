@@ -6,7 +6,7 @@
 
 # Homebridge FoxESS
 
-This plugin exposes HomeKit to solar data provided by FoxESS and those who use its platform, such as [Energizer Solar](https://portal.energizersolar.com/).
+This plugin exposes HomeKit to solar data provided by [FoxESS](https://www.foxesscloud.com/) and those who use its platform, such as [Energizer Solar](https://portal.energizersolar.com/).
 
 Created are various accessories that help power-optimising automations in HomeKit.
 
