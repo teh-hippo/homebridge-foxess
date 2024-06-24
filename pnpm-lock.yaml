@@ -23,7 +23,7 @@ importers:
         version: 8.57.0
       homebridge:
         specifier: ^1.8.2
-        version: 1.8.2
+        version: 1.8.3
       rimraf:
         specifier: ^5.0.7
         version: 5.0.7
@@ -329,8 +329,8 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
-  commander@12.0.0:
-    resolution: {integrity: sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==}
+  commander@12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
     engines: {node: '>=18'}
 
   concat-map@0.0.1:
@@ -562,8 +562,8 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
-  hap-nodejs@0.12.1:
-    resolution: {integrity: sha512-iUUMaK6ucDKLMjT4m5Oz6CoLKkGg+omI6GR96weyL8fPGR1HYoCMtoJoUNW2NSIp4b2A6hx4zjNOEtLEaTA2MQ==}
+  hap-nodejs@0.12.2:
+    resolution: {integrity: sha512-EAgcBOxxMaWKkRfuGc8FBVJO5/OCFM2jMt5+szkqazWLKANkRLrvf/GtQnPsl6GUuLiWYddLZ/zwasayU8ljQQ==}
     engines: {node: ^18 || ^20}
 
   has-bigints@1.0.2:
@@ -597,8 +597,8 @@ packages:
     engines: {node: '>=10.4'}
     hasBin: true
 
-  homebridge@1.8.2:
-    resolution: {integrity: sha512-K0P9/qk3RdAKGLhGrmtF4skUjcygNlnBu0S/ssKIdp4p0kMzW2wjw2Q+z7TCxgZVy84/kaR09UD1n6uJAunTOQ==}
+  homebridge@1.8.3:
+    resolution: {integrity: sha512-2s8BSV56xf+jGDguKqfpK0Kd14ciWBzX+YpN3iXW7BYF9IVzl4ai/XuoyeG0jMyWB+GN7KgifkAs0IYCAku/BA==}
     engines: {node: ^18.15.0 || ^20.7.0}
     hasBin: true
 
@@ -793,8 +793,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  node-persist@0.0.11:
-    resolution: {integrity: sha512-J3EPzQDgPxPBID7TqHSd5KkpTULFqJUvYDoISfOWg9EihpeVCH3b6YQeDeubzVuc4e6+aiVmkz2sdkWI4K+ghA==}
+  node-persist@0.0.12:
+    resolution: {integrity: sha512-Fbia3FYnURzaql53wLu0t19dmAwQg/tXT6O7YPmdwNwysNKEyFmgoT2BQlPD3XXQnYeiQVNvR5lfvufGwKuxhg==}
 
   object-inspect@1.13.1:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
@@ -1465,7 +1465,7 @@ snapshots:
 
   color-name@1.1.4: {}
 
-  commander@12.0.0: {}
+  commander@12.1.0: {}
 
   concat-map@0.0.1: {}
 
@@ -1770,7 +1770,7 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  hap-nodejs@0.12.1:
+  hap-nodejs@0.12.2:
     dependencies:
       '@homebridge/ciao': 1.2.0
       '@homebridge/dbus-native': 0.6.0
@@ -1778,7 +1778,7 @@ snapshots:
       debug: 4.3.5
       fast-srp-hap: 2.0.4
       futoin-hkdf: 1.5.3
-      node-persist: 0.0.11
+      node-persist: 0.0.12
       source-map-support: 0.5.21
       tslib: 2.6.3
       tweetnacl: 1.0.3
@@ -1807,12 +1807,12 @@ snapshots:
 
   hexy@0.3.5: {}
 
-  homebridge@1.8.2:
+  homebridge@1.8.3:
     dependencies:
       chalk: 4.1.2
-      commander: 12.0.0
+      commander: 12.1.0
       fs-extra: 11.2.0
-      hap-nodejs: 0.12.1
+      hap-nodejs: 0.12.2
       qrcode-terminal: 0.12.0
       semver: 7.6.2
       source-map-support: 0.5.21
@@ -1991,7 +1991,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  node-persist@0.0.11:
+  node-persist@0.0.12:
     dependencies:
       mkdirp: 0.5.6
       q: 1.1.2
