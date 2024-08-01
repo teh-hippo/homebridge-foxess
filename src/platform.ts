@@ -39,14 +39,14 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     (async () => {
       try {
         await this.discoverDevices()
-        this.log.debug(`Updating every ${this.interval}ms`)
+        this.log.debug(`Updating every ${this.interval.toString()}ms`)
         setInterval(this.update.bind(this), this.interval)
         this.update()
       } catch (e) {
-        this.log.error(`Unable to discover.  Will retry after ${minInterval}ms`, e)
+        this.log.error(`Unable to discover.  Will retry after ${minInterval.toString()}ms`, e)
         setTimeout(this.initialise.bind(this), minInterval)
       }
-    })().catch((e) => { this.log.error(`Unable to initialise: ${e}`) })
+    })().catch((e: unknown) => { this.log.error('Unable to initialise: ', e) })
   }
 
   configureAccessory(accessory: PlatformAccessory): void {
@@ -101,7 +101,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   update(): void {
     this.updateCurrentLevel()
       .then(() => { this.failCount = 0 })
-      .catch((e) => {
+      .catch((e: unknown) => {
         const message = 'Unable to update levels:'
         if (++this.failCount < 10) {
           this.log.warn(message, e)
