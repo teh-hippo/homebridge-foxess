@@ -1,6 +1,6 @@
 import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccessory, type PlatformConfig, type Service, type Characteristic } from 'homebridge'
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
-import { InverterAccessory, Variables } from './accessories/inverterAccessory'
+import { InverterAccessory, DisplayNames } from './accessories/inverterAccessory'
 import { type Indicators } from './indicators'
 import { inverter } from 'foxess-lib'
 
@@ -113,7 +113,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
 
   async updateCurrentLevel(): Promise<void> {
     this.log.debug('Fetching real time data')
-    const results = await inverter.getRealTimeData(this.apiKey, { variables: Array.from(Variables.keys()) })
+    const results = await inverter.getRealTimeData(this.apiKey, { variables: Array.from(DisplayNames.keys()) })
     if (results === undefined) {
       this.log.warn('No results came through.')
       return

@@ -4,10 +4,10 @@ import type { Indicators } from '../indicators'
 import { inverter } from 'foxess-lib'
 const minLightLevel = 0.0001
 
-export const Variables: Map<string, string> = new Map<string, string>([
+export const DisplayNames: Map<string, string> = new Map<string, string>([
   ['loadsPower', 'Load Power'], // Load Power (kW); House usage.
   ['generationPower', 'Output Power'], // Output Power (kW); Solar generation.
-  ['feedinPower', 'Feed-in Power'], // Feed-in Power (kW); Exported power.
+  ['feedinPower', 'Feed in Power'], // Feed-in Power (kW); Exported power.
   ['gridConsumptionPower', 'Grid Consumption Power'] // GridConsumption Power (kW); Imported power.
 ])
 
@@ -35,9 +35,9 @@ export class InverterAccessory {
 
     configuredServices.push(informationService)
 
-    Variables.forEach((displayName, variable) => {
-      this.platform.log.debug('Creating service for', displayName)
-      const service = this.accessory.getService(displayName) ?? this.accessory.addService(this.platform.Service.LightSensor, displayName, variable)
+    DisplayNames.forEach((displayName, variable) => {
+      this.platform.log.debug(`Creating light sensor for ${displayName} (${variable})`)
+      const service = this.accessory.getService(variable) ?? this.accessory.addService(this.platform.Service.LightSensor, undefined, variable)
       this.values.set(variable, minLightLevel)
       service.setCharacteristic(this.platform.Characteristic.Name, displayName)
       service.setCharacteristic(this.platform.Characteristic.StatusActive, false)
@@ -60,8 +60,10 @@ export class InverterAccessory {
     })
   }
 
-  private setupSwitch(configuredServices: Service[], name: string, variable: string, handler: CharacteristicGetHandler): Characteristic {
-    const service = this.accessory.getService(name) ?? this.accessory.addService(this.platform.Service.Switch, name, variable)
+  private setupSwitch(configuredServices: Service[], displayName: string, variable: string, handler: CharacteristicGetHandler): Characteristic {
+    this.platform.log.debug(`Creating switch '${displayName}' (${variable})`)
+    const service = this.accessory.getService(variable) ?? this.accessory.addService(this.platform.Service.Switch, undefined, variable)
+    service.displayName = displayName
     const characteristic = service.getCharacteristic(this.platform.Characteristic.On)
     characteristic.onSet(this.updateSwitches.bind(this))
     characteristic.onGet(handler.bind(this))
@@ -86,14 +88,9 @@ export class InverterAccessory {
   public update(value: inverter.RealTimeData): void {
     this.platform.log.debug('Updating', this.accessory.displayName, 'with', value.datas.length, 'value(s)')
     value.datas.forEach((data) => {
-      const serviceName = Variables.get(data.variable)
-      if (serviceName === undefined) {
-        this.platform.log.error('Received real-time data for an unknown variable:', data.variable)
-        return
-      }
-      const service = this.accessory.getService(serviceName)
+      const service = this.accessory.getService(data.variable)
       if (service === undefined) {
-        this.platform.log.error('Unable to find service for', serviceName)
+        this.platform.log.error('Unable to find service for', data.variable)
         return
       }
       const newValue = Math.max(data.value * 1000, minLightLevel)
