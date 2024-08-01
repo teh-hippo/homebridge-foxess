@@ -11,6 +11,16 @@
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
+            "name": "Homebridge",
+            "type": "node",
+            "request": "launch",
+            "args": ["node_modules/homebridge/bin/homebridge"],
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "cwd": "${workspaceFolder}",
+            "internalConsoleOptions": "openOnSessionStart",
+            "preLaunchTask": "npm: debugIde"
+        },
+        {
             "name": "Main",
             "type": "node",
             "request": "launch",
