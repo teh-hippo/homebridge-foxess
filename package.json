@@ -33,8 +33,8 @@
     "forceClean": "rimraf ./dist",
     "build": "tsc",
     "debugIde": "pnpm build && pnpm link .",
-    "lint": "eslint --max-warnings=0 src/**/*.ts",
-    "lintAndFix": "eslint --fix --max-warnings=0 src/**/*.ts",
+    "lint": "pnpm eslint --max-warnings=0 src",
+    "lintAndFix": "eslint --fix --max-warnings=0 src",
     "debug": "pnpm build && homebridge -I -D -P ."
   },
   "devDependencies": {
