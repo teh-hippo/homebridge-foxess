@@ -5,6 +5,11 @@ name: Build Homebridge 2.x
 
 on:
   pull_request:
+<<<<<<< HEAD
+=======
+  schedule:
+    - cron: '0 0 * * *'
+>>>>>>> a393578 (Update several pipelines)
 
 jobs:
 
