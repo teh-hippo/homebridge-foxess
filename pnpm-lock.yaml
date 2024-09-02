@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       foxess-lib:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
     devDependencies:
       '@stylistic/eslint-plugin':
         specifier: ^2.6.4
@@ -465,8 +465,8 @@ packages:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
 
-  foxess-lib@0.3.0:
-    resolution: {integrity: sha512-yFd00iTbFKB+WNOfpFQ+17sAn5VxVfhiXbb/7hnkIjA8no5sQ40QQvfmn2fOOvbBe2hc+Q7z5WuEWMjkN726lw==}
+  foxess-lib@0.3.1:
+    resolution: {integrity: sha512-tzIwlmMLA16byuAW85FR9qp1cSyiib7OgQNLSW01IhTCeeeZyDmjpxrFiJWDdaVnplDHsAq/jOU+97ja63WZQQ==}
     engines: {node: '>=16.14'}
 
   from@0.1.7:
@@ -763,14 +763,14 @@ packages:
     resolution: {integrity: sha512-byy+U7gp+FVwmyzKPYhW2h5l3crpmGsxl7X2s8y43IgxvG4g3QZ6CffDtsNQy1WsmZpQbO+ybo0AlW7TY6DcBQ==}
     engines: {node: '>= 0.4'}
 
-  openapi-fetch@0.10.6:
-    resolution: {integrity: sha512-6xXfvIEL/POtLGOaFPsp3O+pDe+J3DZYxbD9BrsQHXOTeNK8z/gsWHT6adUy1KcpQOhmkerMzlQrJM6DbN55dQ==}
+  openapi-fetch@0.12.0:
+    resolution: {integrity: sha512-D/g5BUGiOAKqivR5s02veJ2+cMHzrkFJKberKP4Z8Vl2VhE6MMirI6wWOgpp8wlsYCRRK7CX0NCGVL/mt6l1fA==}
 
   openapi-types@12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
 
-  openapi-typescript-helpers@0.0.11:
-    resolution: {integrity: sha512-xofUHlVFq+BMquf3nh9I8N2guHckW6mrDO/F3kaFgrL7MGbjldDnQ9TIT+rkH/+H0LiuO+RuZLnNmsJwsjwUKg==}
+  openapi-typescript-helpers@0.0.13:
+    resolution: {integrity: sha512-z44WK2e7ygW3aUtAtiurfEACohf/Qt9g6BsejmIYgEoY4REHeRzgFJmO3ium0libsuzPc145I+8lE9aiiZrQvQ==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -1568,9 +1568,9 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
-  foxess-lib@0.3.0:
+  foxess-lib@0.3.1:
     dependencies:
-      openapi-fetch: 0.10.6
+      openapi-fetch: 0.12.0
       openapi-types: 12.1.3
       ts-md5: 1.3.1
 
@@ -1862,13 +1862,13 @@ snapshots:
       has-symbols: 1.0.3
       object-keys: 1.1.1
 
-  openapi-fetch@0.10.6:
+  openapi-fetch@0.12.0:
     dependencies:
-      openapi-typescript-helpers: 0.0.11
+      openapi-typescript-helpers: 0.0.13
 
   openapi-types@12.1.3: {}
 
-  openapi-typescript-helpers@0.0.11: {}
+  openapi-typescript-helpers@0.0.13: {}
 
   optionator@0.9.4:
     dependencies:
