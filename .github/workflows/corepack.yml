@@ -35,4 +35,4 @@ jobs:
           Update to the latest PNPM manager.
         token: ${{ secrets.PAT }}
         committer: AutoHippo <auto@hippo.org>
-        branch: autohippo/update-pnpm-${{ github.run_number }}
+        branch: autohippo/update-pnpm
