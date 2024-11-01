@@ -23,7 +23,7 @@ importers:
         version: 9.14.0
       homebridge:
         specifier: ^1.8.4
-        version: 1.8.4
+        version: 1.8.5
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -346,6 +346,15 @@ packages:
       supports-color:
         optional: true
 
+  debug@4.3.7:
+    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
   deep-equal@2.2.3:
     resolution: {integrity: sha512-ZIwpnevOurS8bpT4192sqAowWM76JDKSHYzMLty3BZGSswgq6pBaH3DhCSW5xVAZICZyKdOBPjwww5wfgT/6PA==}
     engines: {node: '>= 0.4'}
@@ -538,9 +547,9 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
-  hap-nodejs@0.12.2:
-    resolution: {integrity: sha512-EAgcBOxxMaWKkRfuGc8FBVJO5/OCFM2jMt5+szkqazWLKANkRLrvf/GtQnPsl6GUuLiWYddLZ/zwasayU8ljQQ==}
-    engines: {node: ^18 || ^20}
+  hap-nodejs@0.12.3:
+    resolution: {integrity: sha512-E6uEwSmDejvzaSAHosjjbWp7/YNo0o+LZtcbH2KoediVOHGG1tYRDGEMyOiG7ZtZn6CwXwr6xqSZTnXTzQCImQ==}
+    engines: {node: ^18 || ^20 || ^22}
 
   has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
@@ -573,9 +582,9 @@ packages:
     engines: {node: '>=10.4'}
     hasBin: true
 
-  homebridge@1.8.4:
-    resolution: {integrity: sha512-Wr5QdI/OCpxCM3rdXyuPUxNlbuwiFngnuj+ZsrCbg5cMwKRMfN+RRGiW2LUSY2BDGQC0cSUt/9TF6tIlov16Qw==}
-    engines: {node: ^18.15.0 || ^20.7.0}
+  homebridge@1.8.5:
+    resolution: {integrity: sha512-ovqAI1BopsD0XwE1gZoWZYroLn2nINnQ8TwHeKjqSPPDK5SG0SlhbC5ppcmcjn9SU9xIsSKOcZ9QunPxpT7Vxw==}
+    engines: {node: ^18.15.0 || ^20.7.0 || ^22}
     hasBin: true
 
   ignore@5.3.2:
@@ -751,6 +760,9 @@ packages:
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+
+  ms@2.1.3:
+    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
   multicast-dns-service-types@1.1.0:
     resolution: {integrity: sha512-cnAsSVxIDsYt0v7HmC0hWZFwwXSh+E6PgCrREDuN/EsjgLwA5XRmlMHhSiDPrt6HxY1gTivEa/Zh7GtODoLevQ==}
@@ -992,8 +1004,8 @@ packages:
       '@swc/wasm':
         optional: true
 
-  tslib@2.7.0:
-    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   tweetnacl@1.0.3:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
@@ -1120,10 +1132,10 @@ snapshots:
 
   '@homebridge/ciao@1.3.1':
     dependencies:
-      debug: 4.3.6
+      debug: 4.3.7
       fast-deep-equal: 3.1.3
       source-map-support: 0.5.21
-      tslib: 2.7.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -1257,7 +1269,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.12.2(typescript@5.6.3)
       '@typescript-eslint/utils': 8.12.2(eslint@9.14.0)(typescript@5.6.3)
-      debug: 4.3.6
+      debug: 4.3.7
       ts-api-utils: 1.3.0(typescript@5.6.3)
     optionalDependencies:
       typescript: 5.6.3
@@ -1271,7 +1283,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.12.2
       '@typescript-eslint/visitor-keys': 8.12.2
-      debug: 4.3.6
+      debug: 4.3.7
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -1402,6 +1414,10 @@ snapshots:
   debug@4.3.6:
     dependencies:
       ms: 2.1.2
+
+  debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
 
   deep-equal@2.2.3:
     dependencies:
@@ -1653,17 +1669,17 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  hap-nodejs@0.12.2:
+  hap-nodejs@0.12.3:
     dependencies:
       '@homebridge/ciao': 1.3.1
       '@homebridge/dbus-native': 0.6.0
       bonjour-hap: 3.8.0
-      debug: 4.3.6
+      debug: 4.3.7
       fast-srp-hap: 2.0.4
       futoin-hkdf: 1.5.3
       node-persist: 0.0.12
       source-map-support: 0.5.21
-      tslib: 2.7.0
+      tslib: 2.8.1
       tweetnacl: 1.0.3
     transitivePeerDependencies:
       - supports-color
@@ -1690,12 +1706,12 @@ snapshots:
 
   hexy@0.3.5: {}
 
-  homebridge@1.8.4:
+  homebridge@1.8.5:
     dependencies:
       chalk: 4.1.2
       commander: 12.1.0
       fs-extra: 11.2.0
-      hap-nodejs: 0.12.2
+      hap-nodejs: 0.12.3
       qrcode-terminal: 0.12.0
       semver: 7.6.3
       source-map-support: 0.5.21
@@ -1859,6 +1875,8 @@ snapshots:
       minimist: 1.2.8
 
   ms@2.1.2: {}
+
+  ms@2.1.3: {}
 
   multicast-dns-service-types@1.1.0: {}
 
@@ -2087,7 +2105,7 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  tslib@2.7.0: {}
+  tslib@2.8.1: {}
 
   tweetnacl@1.0.3: {}
 
