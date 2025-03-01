@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       foxess-lib:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
     devDependencies:
       '@eslint/js':
         specifier: ^9.19.0
@@ -488,9 +488,9 @@ packages:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
 
-  foxess-lib@0.4.1:
-    resolution: {integrity: sha512-2HFiJX5v1HdapgwiSclHzdUZmonfsLuzQ8/Tu3MbdHASqt8MZcsmNCkgGB0U4zPai3hupHo/TjQSjA552EyvcA==}
-    engines: {node: '>=16.14'}
+  foxess-lib@0.5.0:
+    resolution: {integrity: sha512-N+wPtNW0jp8uDTRXO5xHcZqx2GwGX9m4cFSkp1Xe7vRpaPUvBdsZhIzi7QljG42dTErki7fOeDI5wxliQD2L0g==}
+    engines: {node: '>=18.0.0'}
 
   from@0.1.7:
     resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==}
@@ -1633,7 +1633,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  foxess-lib@0.4.1:
+  foxess-lib@0.5.0:
     dependencies:
       openapi-fetch: 0.13.4
       openapi-types: 12.1.3
