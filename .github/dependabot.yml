@@ -17,3 +17,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    allow:
+      - dependency-type: "production"
+    rebase-strategy: "disabled"
