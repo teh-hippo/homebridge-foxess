@@ -38,18 +38,18 @@
     "debug": "pnpm build && homebridge -I -D -P ."
   },
   "devDependencies": {
-    "@eslint/js": "^9.27.0",
-    "@stylistic/eslint-plugin": "^4.2.0",
-    "@types/node": "^22.15.21",
-    "eslint": "^9.27.0",
-    "homebridge": "^1.9.0",
+    "@eslint/js": "^9.36.0",
+    "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/node": "^24.6.2",
+    "eslint": "^9.36.0",
+    "homebridge": "^1.11.0",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0"
   },
   "dependencies": {
-    "foxess-lib": "^0.6.6"
+    "foxess-lib": "^0.7.1"
   },
   "packageManager": "pnpm@10.18.0+sha512.e804f889f1cecc40d572db084eec3e4881739f8dec69c0ff10d2d1beff9a4e309383ba27b5b750059d7f4c149535b6cd0d2cb1ed3aeb739239a4284a68f40cfa"
 }
