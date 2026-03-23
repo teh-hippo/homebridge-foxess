@@ -1,7 +1,7 @@
 {
   "name": "homebridge-foxess",
   "displayName": "Homebridge FoxESS",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Basic utility accessories for displaying solar FoxESS solar information in Homebridge: https://github.com/nfarina/homebridge",
   "license": "MIT",
   "keywords": [
@@ -38,18 +38,15 @@
     "debug": "pnpm build && homebridge -I -D -P ."
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@stylistic/eslint-plugin": "^5.6.0",
-    "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
-    "homebridge": "^1.11.1",
-    "rimraf": "^6.1.0",
+    "@eslint/js": "^9.39.4",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^24.12.0",
+    "eslint": "^9.39.4",
+    "homebridge": "^1.11.3",
+    "rimraf": "^6.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.47.0"
-  },
-  "dependencies": {
-    "foxess-lib": "^0.7.1"
+    "typescript-eslint": "^8.57.1"
   },
   "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
 }

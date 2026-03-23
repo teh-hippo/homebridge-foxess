@@ -2,7 +2,7 @@ import { type API, type DynamicPlatformPlugin, type Logger, type PlatformAccesso
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings'
 import { InverterAccessory, DisplayNames } from './accessories/inverterAccessory'
 import { type Indicators } from './indicators'
-import { inverter } from 'foxess-lib'
+import { type Inverter, getDevices, getRealTimeData } from './foxess-api'
 
 const minInterval: number = 60 * 1000
 
@@ -60,13 +60,13 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices(): Promise<void> {
-    const inverters = await inverter.getDevices(this.apiKey)
-    for (const inverter of inverters) {
-      this.createInverter(inverter)
+    const inverters = await getDevices(this.apiKey)
+    for (const inv of inverters) {
+      this.createInverter(inv)
     }
 
     for (const accessory of this.accessories) {
-      const context = accessory.context as inverter.Inverter
+      const context = accessory.context as Inverter
       if (!('deviceSN' in context)) {
         this.log.error('Unknown context for accessory:', accessory.displayName, 'data: ', JSON.stringify(accessory.context))
       } else {
@@ -78,22 +78,22 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
     }
   }
 
-  private createInverter(inverter: inverter.Inverter): void {
-    const uuid = this.api.hap.uuid.generate(inverter.deviceSN)
-    this.log.debug('Looking up:', inverter.deviceSN)
-    const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid) as PlatformAccessory<inverter.Inverter> | undefined
-    const displayName = `Inverter ${inverter.deviceSN}`
+  private createInverter(inv: Inverter): void {
+    const uuid = this.api.hap.uuid.generate(inv.deviceSN)
+    this.log.debug('Looking up:', inv.deviceSN)
+    const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid) as PlatformAccessory<Inverter> | undefined
+    const displayName = `Inverter ${inv.deviceSN}`
     if (existingAccessory !== undefined && 'displayName' in existingAccessory) {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName)
-      existingAccessory.context = inverter
+      existingAccessory.context = inv
       existingAccessory.displayName = displayName
       this.api.updatePlatformAccessories([existingAccessory])
-      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, existingAccessory, this.indicators))
+      this.inverters.set(inv.deviceSN, new InverterAccessory(this, existingAccessory, this.indicators))
     } else {
       this.log.info('Adding new accessory:', displayName)
-      const accessory = new this.api.platformAccessory<inverter.Inverter>(displayName, uuid)
-      accessory.context = inverter
-      this.inverters.set(inverter.deviceSN, new InverterAccessory(this, accessory, this.indicators))
+      const accessory = new this.api.platformAccessory<Inverter>(displayName, uuid)
+      accessory.context = inv
+      this.inverters.set(inv.deviceSN, new InverterAccessory(this, accessory, this.indicators))
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory])
     }
   }
@@ -113,7 +113,7 @@ export class FoxESSPlatform implements DynamicPlatformPlugin {
 
   async updateCurrentLevel(): Promise<void> {
     this.log.debug('Fetching real time data')
-    const results = await inverter.getRealTimeData(this.apiKey, { variables: Array.from(DisplayNames.keys()) })
+    const results = await getRealTimeData(this.apiKey, { variables: Array.from(DisplayNames.keys()) })
     if (results === undefined) {
       this.log.warn('No results came through.')
       return
