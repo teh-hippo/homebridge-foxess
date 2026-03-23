@@ -92,7 +92,7 @@ const deviceListPath = '/op/v0/device/list'
 export async function getDevices(apiKey: string): Promise<Inverter[]> {
   const results: Inverter[] = []
   let page = 0
-  let total = 0
+  let total: number
 
   do {
     const result = await post<PaginatedResult<Inverter>>(deviceListPath, apiKey, {
