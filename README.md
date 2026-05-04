@@ -6,6 +6,8 @@
 
 # Homebridge FoxESS
 
+> ⚠️ **Deprecated and archived.** This plugin is no longer maintained, and there is no direct Homebridge replacement. Existing installations will continue to work, but no new releases will follow this one. The GitHub repository has been archived. Forks are welcome — the underlying [`foxess-lib`](https://github.com/teh-hippo/foxess-lib) wrapper around the FoxESS OpenAPI still works and can be used as a starting point.
+
 This plugin exposes HomeKit to solar data provided by [FoxESS](https://www.foxesscloud.com/) and those who use its platform, such as [Energizer Solar](https://portal.energizersolar.com/).
 
 Created are various accessories that help power-optimising automations in HomeKit.
